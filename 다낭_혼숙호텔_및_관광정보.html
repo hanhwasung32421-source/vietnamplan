@@ -1,0 +1,1344 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>다낭 혼숙 가능 호텔 및 밤문화/카지노/일정 대시보드</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent-cyan: #06b6d4;
+            --accent-indigo: #6366f1;
+            --accent-pink: #ec4899;
+            --accent-emerald: #10b981;
+            --accent-amber: #f59e0b;
+            --gradient-primary: linear-gradient(135deg, #06b6d4 0%, #6366f1 100%);
+            --gradient-card: linear-gradient(135deg, rgba(30, 41, 59, 0.95) 0%, rgba(15, 23, 42, 0.95) 100%);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: 'Inter', 'Noto Sans KR', sans-serif;
+            line-height: 1.75;
+            font-size: 1.05rem;
+            padding: 2.5rem;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.18) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(6, 182, 212, 0.18) 0px, transparent 50%);
+            background-attachment: fixed;
+        }
+
+        .container {
+            max-width: 1500px;
+            margin: 0 auto;
+        }
+
+        header {
+            margin-bottom: 3.5rem;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.05em;
+        }
+
+        header p {
+            color: var(--text-secondary);
+            font-size: 1.15rem;
+        }
+
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 1.25rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text-secondary);
+            padding: 0.85rem 1.75rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(12px);
+            font-size: 1rem;
+        }
+
+        .nav-btn:hover {
+            color: var(--text-primary);
+            border-color: var(--accent-cyan);
+            transform: translateY(-2px);
+        }
+
+        .nav-btn.active {
+            background: var(--gradient-primary);
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.35);
+        }
+
+        .section-title {
+            font-size: 1.9rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            margin-top: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            border-left: 6px solid var(--accent-cyan);
+            padding-left: 0.75rem;
+        }
+
+        .grid-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .card {
+            background: var(--gradient-card);
+            border: 1px solid var(--card-border);
+            border-radius: 18px;
+            padding: 2rem;
+            backdrop-filter: blur(16px);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--gradient-primary);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            border-color: rgba(6, 182, 212, 0.4);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.25rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 0.75rem;
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.2s ease;
+        }
+
+        .card-title:hover {
+            color: var(--accent-cyan);
+        }
+
+        .map-link-btn {
+            color: var(--accent-cyan);
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            transition: opacity 0.2s ease;
+        }
+
+        .map-link-btn:hover {
+            opacity: 0.8;
+            text-decoration: underline;
+        }
+
+        .badge {
+            padding: 0.4rem 0.85rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .badge-cyan {
+            background: rgba(6, 182, 212, 0.15);
+            color: var(--accent-cyan);
+            border: 1px solid rgba(6, 182, 212, 0.3);
+        }
+
+        .badge-indigo {
+            background: rgba(99, 102, 241, 0.15);
+            color: var(--accent-indigo);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+        }
+
+        .badge-emerald {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--accent-emerald);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .badge-pink {
+            background: rgba(236, 72, 153, 0.15);
+            color: var(--accent-pink);
+            border: 1px solid rgba(236, 72, 153, 0.3);
+        }
+
+        .badge-amber {
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--accent-amber);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+
+        .card-content {
+            margin-bottom: 1.5rem;
+        }
+
+        .info-row {
+            display: flex;
+            margin-bottom: 0.75rem;
+            font-size: 0.98rem;
+        }
+
+        .info-label {
+            color: var(--text-secondary);
+            width: 110px;
+            flex-shrink: 0;
+            font-weight: 600;
+        }
+
+        .info-value {
+            color: var(--text-primary);
+        }
+
+        .card-review {
+            background: rgba(15, 23, 42, 0.6);
+            border-left: 4px solid var(--accent-cyan);
+            padding: 1rem;
+            border-radius: 6px;
+            font-size: 0.93rem;
+            color: var(--text-primary);
+            margin-top: auto;
+        }
+
+        .review-quote {
+            display: block;
+            margin-top: 0.5rem;
+            font-style: italic;
+            color: #cbd5e1;
+            line-height: 1.6;
+        }
+
+        .table-container {
+            background: var(--gradient-card);
+            border: 1px solid var(--card-border);
+            border-radius: 18px;
+            overflow: hidden;
+            margin-bottom: 4rem;
+            backdrop-filter: blur(16px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th {
+            background: rgba(15, 23, 42, 0.8);
+            color: var(--text-secondary);
+            font-weight: 600;
+            padding: 1.25rem 1.75rem;
+            font-size: 0.95rem;
+            border-bottom: 1px solid var(--card-border);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        td {
+            padding: 1.5rem 1.75rem;
+            border-bottom: 1px solid var(--card-border);
+            font-size: 1rem;
+            color: var(--text-primary);
+            vertical-align: top;
+            line-height: 1.7;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover td {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .highlight-text {
+            color: var(--accent-cyan);
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .table-map-link {
+            color: var(--accent-cyan);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            transition: color 0.2s ease;
+        }
+
+        .table-map-link:hover {
+            color: var(--text-primary);
+            text-decoration: underline;
+        }
+
+        .tip-box {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.25);
+            border-radius: 14px;
+            padding: 1.5rem;
+            margin-bottom: 2.5rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 1.25rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .tip-icon {
+            font-size: 1.8rem;
+            color: var(--accent-amber);
+            line-height: 1;
+        }
+
+        .tip-content h4 {
+            color: var(--accent-amber);
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 0.35rem;
+        }
+
+        .tip-content p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .bullet-list {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .bullet-list li {
+            position: relative;
+            padding-left: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .bullet-list li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--accent-cyan);
+            font-weight: bold;
+        }
+
+        .sub-details {
+            margin-top: 0.5rem;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            padding-left: 0.5rem;
+            border-left: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+        }
+
+        /* 스케줄용 타임라인 스타일 */
+        .timeline {
+            position: relative;
+            padding-left: 1.5rem;
+            border-left: 2px solid rgba(255, 255, 255, 0.1);
+            margin-top: 1rem;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .timeline-item::before {
+            content: "";
+            position: absolute;
+            left: -1.95rem;
+            top: 0.25rem;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--accent-cyan);
+            box-shadow: 0 0 10px var(--accent-cyan);
+        }
+
+        .timeline-time {
+            font-size: 0.85rem;
+            color: var(--accent-cyan);
+            font-weight: 700;
+            margin-bottom: 0.2rem;
+            text-transform: uppercase;
+        }
+
+        .timeline-desc {
+            color: var(--text-primary);
+            font-size: 0.95rem;
+        }
+
+        .timeline-cost {
+            font-size: 0.85rem;
+            color: var(--accent-amber);
+            font-weight: 600;
+            margin-top: 0.2rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>다낭 혼숙 가능 호텔 및 유흥/카지노/일정 대시보드</h1>
+        <p>실제 텔레그램 채널 업소 광고 내역 및 소통방 대화 데이터 기반 정밀 아카이브</p>
+    </header>
+
+    <div class="nav-tabs">
+        <button class="nav-btn active" onclick="switchTab('hotel')">🏨 혼숙 가능 호텔 상세</button>
+        <button class="nav-btn" onclick="switchTab('casino')">🎰 카지노 & 파칭코 상세</button>
+        <button class="nav-btn" onclick="switchTab('nightlife')">🌙 밤문화 업소 상세</button>
+        <button class="nav-btn" onclick="switchTab('etc')">🍽️ 식당, 쇼핑 & 관광 팁</button>
+        <button class="nav-btn" onclick="switchTab('schedule')">📅 3박 5일 추천 스케줄</button>
+    </div>
+
+    <!-- 1. 호텔 섹션 -->
+    <div id="hotel" class="section active">
+        <div class="section-title">
+            <span>🏨 외부 파트너 출입 / 혼숙 검증 완료 호텔</span>
+        </div>
+
+        <div class="tip-box">
+            <div class="tip-icon">⚠️</div>
+            <div class="tip-content">
+                <h4>다낭 호텔 예약 시 강력한 현지 팁</h4>
+                <p>소규모 로컬 호텔이나 보수적인 중형 숙소는 베트남 성매매 단속법 우려 및 현지인 숙박 보안 규정(가족증명서 요구 등)을 이유로 밤 9시~10시 이후 외부 로컬 여성의 객실 출입을 매우 엄격하게 금지합니다. 로비에서 신랑이를 피하고 쾌적하게 여행하려면 검증된 프리패스형 숙소를 잡거나, 5성급의 경우 파트너 체크인 시 정식 여권 등록 절차를 거치는 것이 안전합니다. <span style="color: var(--accent-cyan); font-weight: bold;">(호텔 이름을 클릭하면 구글맵 위치로 이동합니다)</span></p>
+            </div>
+        </div>
+
+        <div class="grid-cards">
+            <!-- CN 호텔 -->
+            <div class="card">
+                <div>
+                    <div class="card-header">
+                        <a href="https://www.google.com/maps/search/?api=1&query=CN+Hotel+Danang" target="_blank" class="card-title">📍 CN 호텔 (CN Hotel)</a>
+                        <span class="badge badge-emerald">프리패스 (최상)</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="info-row">
+                            <div class="info-label">등급/요금</div>
+                            <div class="info-value">4성급 (1박 기준 한화 약 3~4만 원 내외의 높은 가성비)</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">위치 조건</div>
+                            <div class="info-value">미케비치(My Khe Beach) 인근 주요 유흥가 및 번화가 동선상 요충지</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">출입 상세</div>
+                            <div class="info-value">로비 프론트 및 가드(보안 요원)의 외부 여성 출입 감시 및 태클 전혀 없음</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">비고/특이사항</div>
+                            <div class="info-value">시설이 아주 호화롭지는 않으나 가벼운 마음으로 베이스캠프를 차리기에 극상의 조건</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-review">
+                    <strong>소통방 실사용 유저 합의 평 (Consensus):</strong>
+                    <span class="review-quote">"다낭은 CN호텔이 진리의 프리패스입니다. 시설도 적당히 깔끔하고 싸서, 굳이 비싼 에어비앤비 예약할 필요가 전혀 없더군요. 유흥 목적으로 묵기엔 여기가 다낭에서 원탑 가성비입니다."</span>
+                </div>
+            </div>
+
+            <!-- 포포인츠 -->
+            <div class="card">
+                <div>
+                    <div class="card-header">
+                        <a href="https://www.google.com/maps/search/?api=1&query=Four+Points+by+Sheraton+Danang" target="_blank" class="card-title">📍 포포인츠 바이 쉐라톤</a>
+                        <span class="badge badge-emerald">프리패스 (최상)</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="info-row">
+                            <div class="info-label">등급/요금</div>
+                            <div class="info-value">5성급 럭셔리 브랜드 / 객실 컨디션 및 오션뷰 훌륭함</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">위치 조건</div>
+                            <div class="info-value">미케비치 오션 프론트 라인 (뷰와 주변 인프라 최고)</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">출입 상세</div>
+                            <div class="info-value">외부 로컬 파트너 동반 입실 시 검문, 제재, 혹은 방으로의 유선 확인 전혀 없음</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">비고/특이사항</div>
+                            <div class="info-value">돈을 좀 쓰더라도 쾌적한 럭셔리 힐링과 안전한 혼숙을 보장받고 싶을 때 부동의 1위 추천처</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-review">
+                    <strong>소통방 실사용 유저 합의 평 (Consensus):</strong>
+                    <span class="review-quote">"베트남 전국 4성, 5성급 고급 호텔 다 다녀봤지만 프론트 직원이 야간에 외부인 데리고 갈 때 아는 척도 안 하고 완벽하게 노터치 해주는 곳은 다낭 포포인츠가 유일했습니다. 룸 컨디션도 아주 훌륭해서 내상 우려가 제로입니다."</span>
+                </div>
+            </div>
+
+            <!-- 파라셀 호텔 -->
+            <div class="card">
+                <div>
+                    <div class="card-header">
+                        <a href="https://www.google.com/maps/search/?api=1&query=Paracel+Hotel+Danang" target="_blank" class="card-title">📍 파라셀 호텔 (Paracel Hotel)</a>
+                        <span class="badge badge-cyan">프리패스 (우수)</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="info-row">
+                            <div class="info-label">등급/요금</div>
+                            <div class="info-value">4성급 / 중저가 실속 요금대</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">위치 조건</div>
+                            <div class="info-value">시내 중심가 및 해변 근처로 교통 편리</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">출입 상세</div>
+                            <div class="info-value">로비 분위기가 비교적 자유로워 출장 안마나 파트너 출입에 관대함</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">비고/특이사항</div>
+                            <div class="info-value">출장 및 출하(출장 안마) 부르기에 매우 편한 구조와 매끄러운 통과 환경</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-review">
+                    <strong>소통방 실사용 유저 합의 평 (Consensus):</strong>
+                    <span class="review-quote">"출장 마사지나 에코걸 부를 때 파라셀 호텔도 아주 부드럽게 통과됩니다. 가격도 저렴해서 부담 없이 잡기 좋고, 비즈니스 여행객들에게 실질적으로 최적의 가성비를 줍니다."</span>
+                </div>
+            </div>
+
+            <!-- 글로벌 5성 리조트 및 풀빌라 -->
+            <div class="card">
+                <div>
+                    <div class="card-header">
+                        <span class="card-title">📍 글로벌 5성 리조트 (체크인 등록 필수)</span>
+                        <span class="badge badge-cyan">여권 등록 필수</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="info-row">
+                            <div class="info-label">대상 리조트</div>
+                            <div class="info-value">
+                                <a href="https://www.google.com/maps/search/?api=1&query=Melia+Danang+Resort" target="_blank" class="map-link-btn">🗺️ 멜리아 리조트</a>, 
+                                <a href="https://www.google.com/maps/search/?api=1&query=Danang+Marriott+Resort+Non+Nuoc" target="_blank" class="map-link-btn">🗺️ 메리어트 논누억</a>, 
+                                <a href="https://www.google.com/maps/search/?api=1&query=TMS+Hotel+Da+Nang+Beach" target="_blank" class="map-link-btn">🗺️ TMS 호텔</a> 등
+                            </div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">출입 상세</div>
+                            <div class="info-value">글로벌 대형 리조트는 꽁출입(무단 출입)보다 로비 프론트에서 파트너의 여권을 공식 신원 등록(등록증 보관) 후 입장시키는 시스템이 보편적임</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">비고/특이사항</div>
+                            <div class="info-value">풀빌라의 경우 다인 투어 시 독채 풀빌라를 빌려 출장을 다수 부르는 것이 극상의 재미를 선사함 (KC 추천)</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-review">
+                    <strong>소통방 실사용 유저 합의 평 (Consensus):</strong>
+                    <span class="review-quote">"글로벌 대형 체인은 괜히 몰래 데려가다 로비에서 걸리면 골치 아픕니다. 로비에서 당당하게 여권만 카피해주면 멜리아나 메리어트급 리조트 모두 무난하게 입실 가능합니다. 프라이빗 풀빌라는 사실상 프리패스 구역이고요."</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. 카지노 섹션 -->
+    <div id="casino" class="section">
+        <div class="section-title">
+            <span>🎰 다낭 카지노 & 파칭코 상세 프로모션 및 분석</span>
+        </div>
+        
+        <div class="grid-cards">
+            <!-- 연합 카지노 -->
+            <div class="card">
+                <div>
+                    <div class="card-header">
+                        <span class="card-title">📍 연합 카지노 프로모션</span>
+                        <span class="badge badge-amber">VIP & 소액 환영</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="tags">
+                            <span class="badge badge-cyan">항공권/호텔 지원</span>
+                            <span class="badge badge-emerald">무료 픽업/드롭오프</span>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">대상 지점</div>
+                            <div class="info-value">
+                                <a href="https://www.google.com/maps/search/?api=1&query=Club+99+Danang" target="_blank" class="map-link-btn">🗺️ 클럽 99</a>,
+                                <a href="https://www.google.com/maps/search/?api=1&query=Club+88+Danang" target="_blank" class="map-link-btn">🗺️ 클럽 88</a>,
+                                <a href="https://www.google.com/maps/search/?api=1&query=One+Opera+Danang+Casino" target="_blank" class="map-link-btn">🗺️ 원오페라</a>
+                            </div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">연락처</div>
+                            <div class="info-value">카톡: dnking1 / Tej73 (한국인 매니저 상주)</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">바이인 혜택</div>
+                            <div class="info-value">
+                                <ul class="bullet-list">
+                                    <li><strong>$500 신규</strong>: 프리쿠폰 $500 (롤링 후 현금화) + 5성급 호텔 2박 무료</li>
+                                    <li><strong>$5,000 바이인</strong>: $500 쿠폰 + 5성 2박 + 왕복 항공권 지원 + 픽업</li>
+                                    <li><strong>$10,000 바이인</strong>: $1,000 쿠폰 + 5성 3박 + 항공권 + 골프 1회 무료</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-review">
+                    <strong>대화방 종합 평가 및 팁:</strong>
+                    <span class="review-quote">"소자본 여행객부터 VIP 플레이어까지 폭넓게 수용합니다. 특히 설날(뗏) 연휴 등 특수 기간에 $200 바이인만으로 $200 쿠폰과 호텔 2박을 지원하는 파격적인 이벤트가 잦아 소통방에서 인기가 가장 높습니다."</span>
+                </div>
+            </div>
+
+            <!-- 크라운 카지노 홀덤 -->
+            <div class="card">
+                <div>
+                    <div class="card-header">
+                        <a href="https://www.google.com/maps/search/?api=1&query=Crown+Casino+Da+Nang" target="_blank" class="card-title">📍 크라운 홀덤클럽</a>
+                        <span class="badge badge-indigo">캐시 게임 / 합법</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="tags">
+                            <span class="badge badge-emerald">안전지대</span>
+                            <span class="badge badge-pink">24시간 연중무휴</span>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">위치/연락처</div>
+                            <div class="info-value">크라운(CROWN) 카지노 내부 / 텔레그램: ing2002</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">게임 시스템</div>
+                            <div class="info-value">최소 바이인: $500 ~ MAX (No Limit), 블라인드: Small $5 / Big $10</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">잭팟 보너스</div>
+                            <div class="info-value">
+                                <ul class="bullet-list">
+                                    <li><strong>포카드</strong>: $800 상당 보너스 지급 (4% 적립)</li>
+                                    <li><strong>스트레이트 플러시</strong>: $1,600 상당 보너스 지급 (8% 적립)</li>
+                                    <li><strong>로열 스트레이트 플러시</strong>: $3,400 상당 보너스 지급 (20% 적립)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-review">
+                    <strong>대화방 종합 평가 및 팁:</strong>
+                    <span class="review-quote">"베트남 법 테두리 내 합법 운영으로 단속 걱정이 제로입니다. 다수의 전문 딜러와 철저한 칩 관리로 프로와 레크레이션 유저 모두에게 극찬을 받습니다. 매끄러운 환전과 주대 서비스가 장점입니다."</span>
+                </div>
+            </div>
+
+            <!-- 밀리언 갓 파칭코 -->
+            <div class="card">
+                <div>
+                    <div class="card-header">
+                        <a href="https://www.google.com/maps/search/?api=1&query=78+Ha+Bong+Son+Tra+Danang+Million+God" target="_blank" class="card-title">📍 밀리언 갓 파칭코</a>
+                        <span class="badge badge-emerald">합법 파치슬롯</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="tags">
+                            <span class="badge badge-pink">호텔 숙박 무료제공</span>
+                            <span class="badge badge-cyan">소자본 추천</span>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">위치/연락처</div>
+                            <div class="info-value">78 Ha Bong, Son Tra / 카톡: milliongod</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">주요 특징</div>
+                            <div class="info-value">베트남 최초 합법 일본 전통 파칭코 & 파치슬롯 전문점 (100여 대 기기 운영)</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">결합 혜택</div>
+                            <div class="info-value">
+                                <ul class="bullet-list">
+                                    <li><strong>400만동 바이인</strong>: 4성급 호텔 1박 숙박권 100% 무료 제공</li>
+                                    <li><strong>200만동 바이인</strong>: 3성급 호텔 1박 숙박권 100% 무료 제공</li>
+                                    <li><strong>신규 고객</strong>: 환전 및 가입 시 50만동 보너스 메달 즉시 지급</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-review">
+                    <strong>대화방 종합 평가 및 팁:</strong>
+                    <span class="review-quote">"한국인 지배인이 상주해 소통이 아주 편합니다. 합법이라 촬영도 자유롭고 개방적이죠. 소자본(약 10~20만 원)만으로 3~4성급 호텔 숙박권을 줘서, 알뜰 여행객들의 필수 코스이자 베이스캠프로 각광받고 있습니다."</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. 밤문화 섹션 -->
+    <div id="nightlife" class="section">
+        <div class="section-title">
+            <span>🌙 다낭 밤문화 업소 정밀 정보 및 평가</span>
+        </div>
+
+        <div class="grid-cards">
+            <!-- 한인 KTV -->
+            <div class="card">
+                <div>
+                    <div class="card-header">
+                        <span class="card-title">📍 다낭 한인 KTV (준코, 벤츠 등)</span>
+                        <span class="badge badge-pink">에스코트/오픈런</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="tags">
+                            <span class="badge badge-indigo">미러 초이스</span>
+                            <span class="badge badge-emerald">롱타임(에코)</span>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">업소 정보</div>
+                            <div class="info-value">
+                                <a href="https://www.google.com/maps/search/?api=1&query=Junco+KTV+Danang" target="_blank" class="map-link-btn">🗺️ 준코</a>,
+                                <a href="https://www.google.com/maps/search/?api=1&query=Benz+KTV+Danang" target="_blank" class="map-link-btn">🗺️ 벤츠</a>,
+                                <a href="https://www.google.com/maps/search/?api=1&query=One+Opera+Danang+Casino" target="_blank" class="map-link-btn">🗺️ 원오페라</a>,
+                                <a href="https://www.google.com/maps/search/?api=1&query=Den+KTV+Danang" target="_blank" class="map-link-btn">🗺️ 덴/누민</a>
+                            </div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">시스템/요금</div>
+                            <div class="info-value">
+                                <ul class="bullet-list">
+                                    <li><strong>기본 주대</strong>: 맥주/소주/양주 세트 선택형</li>
+                                    <li><strong>초이스</strong>: 오후 6시부터 시작 (사전 예약 필수)</li>
+                                    <li><strong>2차 시스템</strong>: 숏/롱 선택 가능. 롱(20시간) 평균 $200~$300.</li>
+                                    <li><strong>업소별 특징</strong>: 준코(수질 원탑), 벤츠(마인드 우수), 원오페라(어린 나이), 덴(가성비)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-review">
+                    <strong>대화방 공통 팁 (오픈런 필수):</strong>
+                    <span class="review-quote">"다낭 가라는 늦어도 오후 4~5시 이전에 실장 통해 예약 순번을 잡아야 파트너 선점이 가능합니다. 늦으면 내상 확률이 급격히 높아지므로 무조건 '오픈런'이 정석입니다."</span>
+                </div>
+            </div>
+
+            <!-- 빨간그네 -->
+            <div class="card">
+                <div>
+                    <div class="card-header">
+                        <a href="https://www.google.com/maps/search/?api=1&query=Red+Swing+Danang" target="_blank" class="card-title">📍 빨간그네 (Red Swing)</a>
+                        <span class="badge badge-amber">하드코어 스파</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="tags">
+                            <span class="badge badge-pink">다낭 랜드마크</span>
+                            <span class="badge badge-cyan">시그니처 공중그네</span>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">예약/연락처</div>
+                            <div class="info-value">카톡: danangvip / 텔레그램: vvcc7777</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">주요 시스템</div>
+                            <div class="info-value">
+                                <ul class="bullet-list">
+                                    <li><strong>미러 초이스</strong>: 매직 미러룸 내부에서 외모 필터링 진행</li>
+                                    <li><strong>시그니처</strong>: 공중 그네를 타고 천장에서 묘기를 부리듯 진행되는 스페셜 하드 바디 케어</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-review">
+                    <strong>유저 종합 만족도:</strong>
+                    <span class="review-quote">"가격대는 다소 높지만, 베트남 다른 도시엔 없는 독특한 하드웨어 시스템 덕분에 다낭 필수 방문 코스입니다. 매니저 관리가 철저해 내상률이 극히 드물고 하드 유흥을 원하는 회원들에게 압도적 지지를 받습니다."</span>
+                </div>
+            </div>
+
+            <!-- 더킹 스파 -->
+            <div class="card">
+                <div>
+                    <div class="card-header">
+                        <a href="https://www.google.com/maps/search/?api=1&query=58+Huy+Du+Son+Tra+Danang" target="_blank" class="card-title">📍 더킹 스파 (The King)</a>
+                        <span class="badge badge-emerald">감성 마사지</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="tags">
+                            <span class="badge badge-indigo">정찰제(팁 포함)</span>
+                            <span class="badge badge-cyan">강남 1인샵 스타일</span>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">위치/연락처</div>
+                            <div class="info-value">58 Huy Du, Son Tra / 카톡: danangtheking</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">요금/기법</div>
+                            <div class="info-value">
+                                <ul class="bullet-list">
+                                    <li><strong>단일 코스</strong>: 90분 70만동 (약 3.8만 원, <strong>팁 기본 포함</strong>)</li>
+                                    <li><strong>시스템</strong>: 로미로미 + 감성 스웨디시 + 슈얼 마사지 병합</li>
+                                    <li><strong>특징</strong>: 1인 1실 프라이빗 룸/샤워, 존슨즈 정품 오일, 무료 픽업</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-review">
+                    <strong>대화방 실사용 리뷰:</strong>
+                    <span class="review-quote">"퇴폐가 아닌 강남 1인샵 스타일 감성 릴렉싱을 충실히 구현했습니다. 관리사 손기술과 마인드가 훌륭하고, 팁이 요금에 포함되어 있어 팁 실랑이 스트레스가 0%인 것이 최고의 장점입니다."</span>
+                </div>
+            </div>
+
+            <!-- 맥심 킹 마사지 -->
+            <div class="card">
+                <div>
+                    <div class="card-header">
+                        <a href="https://www.google.com/maps/search/?api=1&query=Maxim+King+Massage+Danang" target="_blank" class="card-title">📍 맥심 킹 마사지</a>
+                        <span class="badge badge-pink">하드코어 붐붐</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="tags">
+                            <span class="badge badge-amber">밀착 누루</span>
+                            <span class="badge badge-indigo">2대1 쓰리섬</span>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">예약/연락처</div>
+                            <div class="info-value">카톡: billy8</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">요금/코스</div>
+                            <div class="info-value">
+                                <ul class="bullet-list">
+                                    <li><strong>VIP 60분 (200만동)</strong>: 동반 샤워 + 바디 마사지 + 원샷</li>
+                                    <li><strong>누루 60분 (240만동)</strong>: 오일 전신 밀착 누루 마사지 + 원샷</li>
+                                    <li><strong>2:1 쓰리섬 (400만동)</strong>: 관리사 2명 동시 투입 스페셜 코스</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-review">
+                    <strong>유저 종합 평가 및 비고:</strong>
+                    <span class="review-quote">"마사지 자체보다 마무리 붐붐 서비스에 완벽히 특화된 한인 업소입니다. 짧은 시간에 확실한 배출과 쾌락을 얻고자 하는 싱글 여행객들의 평점이 높으나, 시설의 럭셔리함이나 순수 마사지 실력을 기대하면 안 됩니다."</span>
+                </div>
+            </div>
+
+            <!-- 버블클럽 & 애플스파 -->
+            <div class="card">
+                <div>
+                    <div class="card-header">
+                        <span class="card-title">📍 버블클럽 & 애플스파</span>
+                        <span class="badge badge-cyan">황제 세신/때밀이</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="tags">
+                            <span class="badge badge-emerald">토탈 뷰티케어</span>
+                            <span class="badge badge-amber">귀국 전 필수</span>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">위치/정보</div>
+                            <div class="info-value">
+                                <a href="https://www.google.com/maps/search/?api=1&query=Bubble+Club+Danang" target="_blank" class="map-link-btn">🗺️ 버블클럽</a>, 
+                                <a href="https://www.google.com/maps/search/?api=1&query=Apple+Spa+Danang" target="_blank" class="map-link-btn">🗺️ 애플스파</a>
+                            </div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">시스템/요금</div>
+                            <div class="info-value">
+                                <ul class="bullet-list">
+                                    <li><strong>90분 (70만동)</strong>: 귀소독/얼굴 각질(30분) + 버블 세신/때밀이(50분) + 헤어/두피(10분)</li>
+                                    <li><strong>120분 (90만동)</strong>: 90분 코스 + 마사지/스트레칭 추가</li>
+                                    <li><strong>애플스파 혜택</strong>: 청량고추/미스틱 제휴 예약 시 1만 원 캐시백</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-review">
+                    <strong>대화방 종합 이용 팁:</strong>
+                    <span class="review-quote">"단순 불건전이 아닌 남성 토탈 뷰티 힐링샵입니다. 여행 마지막 날 풀빌라/호텔 체크아웃 후 비행기 타기 직전 들러서 묵은 때를 시원하게 밀고 개운하게 씻고 가기에 이보다 완벽한 코스는 없다는 평입니다."</span>
+                </div>
+            </div>
+
+            <!-- 출장 마사지 / 에코걸 -->
+            <div class="card">
+                <div>
+                    <div class="card-header">
+                        <span class="card-title">📍 출장 마사지 / 에코걸</span>
+                        <span class="badge badge-pink">에스코트/딜리버리</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="tags">
+                            <span class="badge badge-indigo">1:1 프라이빗</span>
+                            <span class="badge badge-cyan">세진/연/리리출장</span>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">에코 요금</div>
+                            <div class="info-value">1:1 에코걸(24시간): 하루 $200 ~ 60만 원 선 (수수료/퀄리티 별 상이)</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">출장 요금</div>
+                            <div class="info-value">
+                                <ul class="bullet-list">
+                                    <li><strong>단품 케어</strong>: 아로마 90분 60만동 / 링감(HJ+BJ) 130~150만동</li>
+                                    <li><strong>붐붐 케어</strong>: 아로마+원샷 200~210만동</li>
+                                    <li><strong>긴밤 코스</strong>: 밤 10:30~아침 6시 (2샷 제한) 400만동</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-review">
+                    <strong>유저 여론 및 주의사항:</strong>
+                    <span class="review-quote">"시내 로컬 불건 스파에 가서 바가지 쓰거나 단속 협박을 받느니, 검증된 한인 제휴 출장을 숙소(호텔/풀빌라)로 불러 프라이빗하게 노는 것이 훨씬 안전합니다. 밤 10시 이후는 기사 교통비 10만동이 추가됩니다."</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. 기타 정보 섹션 (식당/쇼핑/환전) -->
+    <div id="etc" class="section">
+        <div class="section-title">
+            <span>🛒 다낭 추천 쇼핑 스팟 및 백화점 / 전통시장</span>
+        </div>
+
+        <div class="grid-cards">
+            <!-- 롯데마트 -->
+            <div class="card">
+                <div>
+                    <div class="card-header">
+                        <a href="https://www.google.com/maps/search/?api=1&query=Lotte+Mart+Danang" target="_blank" class="card-title">📍 롯데마트 다낭점</a>
+                        <span class="badge badge-emerald">대형 마트 / 추천</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="info-row">
+                            <div class="info-label">주요 특징</div>
+                            <div class="info-value">한국식 대형 마트 시스템으로 에어컨 완비, 매우 쾌적하고 위생적임</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">환전 정보</div>
+                            <div class="info-value">1층 안내데스크 옆 사설식 안전 환전소 운영 (정식 영수증 발행, 밑장빼기 사기 없음)</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">구매 추천품</div>
+                            <div class="info-value">체리쉬 망고젤리, G7/콘삭 커피, 마카다미아/캐슈넛 견과류, 하오하오 라면, 2층 약국 약품(스트렙실, 아티초크 등)</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-review">
+                    <strong>쇼핑 및 환전 필수 코스 평가:</strong>
+                    <span class="review-quote">"다낭에서 선물 살 때는 롯데마트 한 번이면 다 해결됩니다. 특히 1층 환전소가 시내 금은방만큼 잘 쳐주면서도 가장 위조지폐나 사기 없이 안전하게 바꿀 수 있어서 필수 코스로 무조건 들러야 합니다. 2층 소담 BBQ 등 식당가 인프라도 훌륭해요."</span>
+                </div>
+            </div>
+
+            <!-- 빈컴플라자 -->
+            <div class="card">
+                <div>
+                    <div class="card-header">
+                        <a href="https://www.google.com/maps/search/?api=1&query=Vincom+Plaza+Danang" target="_blank" class="card-title">📍 빈컴플라자 (Vincom Plaza)</a>
+                        <span class="badge badge-indigo">현대식 복합 몰</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="info-row">
+                            <div class="info-label">주요 특징</div>
+                            <div class="info-value">베트남 대기업 빈그룹이 운영하는 가장 현대적인 복합 몰/백화점</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">입점 시설</div>
+                            <div class="info-value">윈마트(WinMart - 로컬 식료품점), CGV 영화관, 브랜드 의류 매장, 대형 푸드코트</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">적합 목적</div>
+                            <div class="info-value">더운 낮 시간 대피소, 영화 관람, 현대적 프랜차이즈 식사 및 캐주얼 브랜드 쇼핑</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-review">
+                    <strong>현지 여행지 평가:</strong>
+                    <span class="review-quote">"우리나라 현대식 복합 쇼핑몰과 똑같습니다. 한시장처럼 덥고 복잡한 분위기가 싫거나, 갑자기 스콜(비)이 쏟아질 때 윈마트에서 기념품 사고 푸드코트에서 쾌적하게 식사하기 매우 좋은 최신식 인프라입니다."</span>
+                </div>
+            </div>
+
+            <!-- 한시장 -->
+            <div class="card">
+                <div>
+                    <div class="card-header">
+                        <a href="https://www.google.com/maps/search/?api=1&query=Han+Market+Danang" target="_blank" class="card-title">📍 한시장 (Han Market)</a>
+                        <span class="badge badge-amber">전통 시장</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="info-row">
+                            <div class="info-label">주요 특징</div>
+                            <div class="info-value">다낭 시내 정중앙에 위치한 대규모 로컬 실내 전통 시장</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">추천 구매품</div>
+                            <div class="info-value">아오자이 맞춤 제작, 크록스/운동화 짝퉁(레플리카), 여행용 캐리어, 라탄백, 건망고</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">주의 사항</div>
+                            <div class="info-value">정찰제가 아니며 호객 행위 심함. 에어컨이 없어 내부는 매우 덥고 냄새가 날 수 있음</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-review">
+                    <strong>대화방 짝퉁/의류 구매 여론:</strong>
+                    <span class="review-quote">"2층 크록스나 이미테이션 신발, 휴양지 원피스는 한시장이 가장 쌉니다. 단, 무조건 상인이 부르는 값의 최소 30%~50%는 깎아달라고 정색하며 흥정해야 합니다. 안 그러면 눈탱이 맞기 십상입니다. 주변 금은방 환전(SOAN HA 등)하러 들르기 좋은 위치입니다."</span>
+                </div>
+            </div>
+
+            <!-- GROOVE -->
+            <div class="card">
+                <div>
+                    <div class="card-header">
+                        <a href="https://www.google.com/maps/search/?api=1&query=38+Tran+Bach+Dang+Danang" target="_blank" class="card-title">📍 GROOVE 골프웨어 & 명품 이미테이션</a>
+                        <span class="badge badge-pink">프리미엄 짝퉁 매장</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="info-row">
+                            <div class="info-label">위치/주소</div>
+                            <div class="info-value">38 Tran Bach Dang (다낭 시내 로얄 노래방 건물 1층 입점)</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">영업 시간</div>
+                            <div class="info-value">오전 10:00 ~ 오후 10:00 (전화: 037 309 4893 / 카톡: `groove11`)</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">주요 라인업</div>
+                            <div class="info-value">말본(Malbon) 전문 샵, PXG, 타이틀리스트 골프웨어 및 명품 이미테이션 백/지갑류</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-review">
+                    <strong>매장 실제 퀄리티 및 가격 메리트:</strong>
+                    <span class="review-quote">"공장에서 직접 떼어오는 직영 매장이라 중간 유통 마진이 없어 네이버나 11번가 오픈마켓 판매 가격의 정확히 반값 수준입니다. 여성 골프의류 2XL 사이즈까지 구비하고 있어 선물용 쇼핑으로도 훌륭하며, 한시장 널려있는 저급 시장 짝퉁 의류와 달리 박음질과 로고 퀄리티가 우수해 쓸만합니다."</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-title">
+            <span>🍽️ 다낭 추천 식당 & 맛집 (현지식, 한식, 이색 식당)</span>
+        </div>
+
+        <div class="grid-cards">
+            <!-- 씀모이가든 -->
+            <div class="card">
+                <div>
+                    <div class="card-header">
+                        <a href="https://www.google.com/maps/search/?api=1&query=Ssem+Moi+Garden+Danang" target="_blank" class="card-title">📍 씀모이가든 (Ssem Moi Garden)</a>
+                        <span class="badge badge-emerald">현지식 / 최상</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="info-row">
+                            <div class="info-label">메뉴 유형</div>
+                            <div class="info-value">반쎄오, 분짜, 모닝글로리, 파인애플 볶음밥 등 베트남 대표 가정식</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">매장 환경</div>
+                            <div class="info-value">한시장 인근 도보 이동 가능. 에어컨 완비 및 인테리어가 매우 고급스럽고 위생적임</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-review">
+                    <strong>회원 종합 맛 평:</strong>
+                    <span class="review-quote">"로컬 길거리 식당의 파리 날리고 더운 분위기가 싫다면 여기가 베스트입니다. 직원들이 직접 반쎄오를 다 싸주고 에어컨 바람 밑에서 쾌적하게 고급 베트남 음식을 즐길 수 있어 가장 만족스럽습니다. 한국인 입맛에 완벽 패치되어 있습니다."</span>
+                </div>
+            </div>
+
+            <!-- 퍼홍 / 냐벱 -->
+            <div class="card">
+                <div>
+                    <div class="card-header">
+                        <span class="card-title">📍 냐벱(Nha Bep) & 퍼홍(Pho Hong)</span>
+                        <span class="badge badge-emerald">현지식 / 노포 및 백반</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="info-row">
+                            <div class="info-label">냐벱 (백반)</div>
+                            <div class="info-value">
+                                <a href="https://www.google.com/maps/search/?api=1&query=Nha+Bep+Danang" target="_blank" class="map-link-btn">🗺️ 냐벱 구글맵 보기</a><br>
+                                한시장 근처 베트남식 집밥/가정식 (미꽝, 갈릭쉬림프 등 자극적이지 않고 대중적인 맛)
+                            </div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">퍼홍 (쌀국수)</div>
+                            <div class="info-value">
+                                <a href="https://www.google.com/maps/search/?api=1&query=Pho+Hong+Danang" target="_blank" class="map-link-btn">🗺️ 퍼홍 구글맵 보기</a><br>
+                                노보텔 근처 전통 쌀국수 맛집. 진하고 깊은 양지/차돌 고기 육수가 일품
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-review">
+                    <strong>대화방 해장 및 로컬 식사 평:</strong>
+                    <span class="review-quote">"해장이 절실할 때 퍼홍으로 달려가 쌀국수 시키면 한국 김치랑 비슷한 밑반찬이 나와서 속 풀기에 예술입니다. 냐벱은 호불호 없는 가정식이라 동행자 데리고 가도 전혀 핀잔 안 듣고 든든한 밥 한 끼 먹을 수 있는 검증된 맛집입니다."</span>
+                </div>
+            </div>
+
+            <!-- 소담 BBQ -->
+            <div class="card">
+                <div>
+                    <div class="card-header">
+                        <a href="https://www.google.com/maps/search/?api=1&query=Sodam+BBQ+Danang" target="_blank" class="card-title">📍 소담 BBQ (Sodam BBQ)</a>
+                        <span class="badge badge-indigo">한식 / 고기구이</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="info-row">
+                            <div class="info-label">메뉴 유형</div>
+                            <div class="info-value">정통 한국식 삼겹살, 돼지갈비, 소갈비 구이 및 찌개류, 냉면 등 한식 전반</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">위치 조건</div>
+                            <div class="info-value">롯데마트 다낭점 2층 입점 (쇼핑 동선과 묶기 최적)</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-review">
+                    <strong>한식 고기구이 만족도 평:</strong>
+                    <span class="review-quote">"베트남 현지식 향신료가 물리고 제대로 된 기름진 돼지삼겹살에 소주 들이켜고 싶을 때 직행해야 하는 곳입니다. 한국 고깃집처럼 직원이 직접 고기를 전부 잘 구워주고 반찬 세팅이 아주 깔끔하게 잘 나와서 현지 소주 파티하기에 최고의 한식 고깃집으로 소문나 있습니다."</span>
+                </div>
+            </div>
+
+            <!-- 썸식당 -->
+            <div class="card">
+                <div>
+                    <div class="card-header">
+                        <a href="https://www.google.com/maps/search/?api=1&query=Some+Restaurant+Danang" target="_blank" class="card-title">📍 썸식당 (Some Restaurant)</a>
+                        <span class="badge badge-pink">이색 착석식당</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="info-row">
+                            <div class="info-label">시스템 유형</div>
+                            <div class="info-value">고기를 굽고 술을 마시는 일반 식당 형태이나, 테이블에 에모이(여성 접대원)들이 합석하여 서빙하고 말상대를 해주는 착석식당</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">비용 구조</div>
+                            <div class="info-value">술값 및 안주 단가가 일반 식당 대비 꽤 높게 형성되어 있음</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-review">
+                    <strong>대화방 유저 팩트 체크 및 주의사항:</strong>
+                    <span class="review-quote">"소통방에서 다낭에 착석해서 먹는 '썸식당'이 생겼다고 가보신 분 후기 구하는 글들이 꽤 있습니다. 맛보다는 아가씨와 동석해 술 녹이는 재미로 가지만 주류 단가가 꽤 세서 가성비는 좋지 못합니다. 2차 KTV나 에코걸 일정 전에 흥을 돋우는 1차 사전 모임용으로 주로 언급됩니다."</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 5. 스케줄 섹션 -->
+    <div id="schedule" class="section">
+        <div class="section-title">
+            <span>📅 목요일 밤 입국 ~ 월요일 아침 귀국 (3박 5일) 맞춤형 추천 스케줄</span>
+        </div>
+
+        <div class="tip-box">
+            <div class="tip-icon">✈️</div>
+            <div class="tip-content">
+                <h4>기준 항공편 및 시간 정보</h4>
+                <p>
+                    - **출발**: 목요일 저녁 20:30~21:30 한국(인천) 출발 → 현지 시간 목요일 23:30~00:30 다낭(DAD) 입국 (비행 4시간 40분, 시차 -2시간 적용)<br>
+                    - **귀국**: 월요일 새벽 00:30~02:00 다낭(DAD) 출발 → 한국 시간 월요일 아침 07:30~09:00 한국(인천) 입국 (기내 1박 페리편)
+                </p>
+            </div>
+        </div>
+
+        <div class="grid-cards">
+            <!-- 코스 A: 럭셔리 관광 & 풀옵션 유흥 코스 -->
+            <div class="card">
+                <div>
+                    <div class="card-header">
+                        <span class="card-title">Course A: 럭셔리 관광 & 풀옵션 유흥 코스</span>
+                        <span class="badge badge-indigo">Luxury & Tourism</span>
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-time">목요일 야간 (입국 및 웰컴)</div>
+                            <div class="timeline-desc">다낭 공항 입국 → 사전에 예약된 <a href="https://www.google.com/maps/search/?api=1&query=Four+Points+by+Sheraton+Danang" target="_blank" class="map-link-btn">🗺️ 포포인츠 바이 쉐라톤</a> 체크인 (여권 등록 후 혼숙 확보) → 가벼운 객실 룸서비스 및 휴식</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">금요일 (쇼핑, KTV 오픈런 & 카지노)</div>
+                            <div class="timeline-desc">12:00 <a href="https://www.google.com/maps/search/?api=1&query=Vincom+Plaza+Danang" target="_blank" class="map-link-btn">🗺️ 빈컴플라자</a>에서 쾌적하게 쇼핑 후 <a href="https://www.google.com/maps/search/?api=1&query=Nha+Bep+Danang" target="_blank" class="map-link-btn">🗺️ 냐벱</a>에서 가정식 점심 → 16:30 <a href="https://www.google.com/maps/search/?api=1&query=Junco+KTV+Danang" target="_blank" class="map-link-btn">🗺️ 준코 가라오케</a> 오픈런 (최상급 에모이 초이스 선점 및 술자리) → 파트너와 함께 <a href="https://www.google.com/maps/search/?api=1&query=Crown+Casino+Da+Nang" target="_blank" class="map-link-btn">🗺️ 크라운 카지노</a> 방문해 가볍게 게임 즐기기</div>
+                            <div class="timeline-cost">비용: 가라오케 세트비 약 $200 + 2차비 별도, 카지노 시드머니 별도</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">토요일 (바나힐 관광 & 하이엔드 스파)</div>
+                            <div class="timeline-desc">10:00 <a href="https://www.google.com/maps/search/?api=1&query=Ba+Na+Hills+Da+Nang" target="_blank" class="map-link-btn">🗺️ 바나힐(Ba Na Hills)</a> 렌트카 이동 및 테마파크 관광 → 16:00 미케비치 근처 씨푸드 고급 식당 저녁 식사 → 19:30 <a href="https://www.google.com/maps/search/?api=1&query=Red+Swing+Danang" target="_blank" class="map-link-btn">🗺️ 빨간그네</a> 스파 방문 (미러 초이스 및 묘기 케어) → <a href="https://www.google.com/maps/search/?api=1&query=Club+88+Danang" target="_blank" class="map-link-btn">🗺️ 클럽 88 카지노</a> 방문</div>
+                            <div class="timeline-cost">비용: 빨간그네 마사지 요금 별도</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">일요일 (한시장, 세신 & 귀국)</div>
+                            <div class="timeline-desc">12:00 체크아웃 후 짐 보관 → 13:00 <a href="https://www.google.com/maps/search/?api=1&query=Han+Market+Danang" target="_blank" class="map-link-btn">🗺️ 한시장</a>에서 기념품 구매 후 <a href="https://www.google.com/maps/search/?api=1&query=Pho+Hong+Danang" target="_blank" class="map-link-btn">🗺️ 퍼홍</a>에서 쌀국수 해장 → 16:00 <a href="https://www.google.com/maps/search/?api=1&query=Bubble+Club+Danang" target="_blank" class="map-link-btn">🗺️ 버블클럽</a> 세신/때밀이 120분 코스로 피로 회복 → 20:00 <a href="https://www.google.com/maps/search/?api=1&query=Sodam+BBQ+Danang" target="_blank" class="map-link-btn">🗺️ 소담 BBQ</a>에서 저녁 식사 → 22:30 공항 이동 → 월요일 01:00 귀국편 탑승</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-review" style="background: rgba(99, 102, 241, 0.1);">
+                    <strong>스케줄 요약 요령:</strong>
+                    <span>주간에는 다낭의 대표 관광지(바나힐, 빈컴플라자)를 여유롭게 둘러보고, 야간에는 최고급 KTV 오픈런과 럭셔리 스파, 카지노를 결합하여 프리미엄하게 즐기는 밸런스형 동선입니다.</span>
+                </div>
+            </div>
+
+            <!-- 코스 B: 가성비 로컬 체험 & KTV/홀덤 올인원 코스 -->
+            <div class="card">
+                <div>
+                    <div class="card-header">
+                        <span class="card-title">Course B: 가성비 로컬 & 하드코어 코스</span>
+                        <span class="badge badge-pink">Value & Hardcore</span>
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-time">목요일 야간 (입국 및 파칭코)</div>
+                            <div class="timeline-desc">다낭 공항 입국 → 가성비 최상 <a href="https://www.google.com/maps/search/?api=1&query=CN+Hotel+Danang" target="_blank" class="map-link-btn">🗺️ CN 호텔</a> 체크인 → <a href="https://www.google.com/maps/search/?api=1&query=78+Ha+Bong+Son+Tra+Danang+Million+God" target="_blank" class="map-link-btn">🗺️ 밀리언 갓 파칭코</a>로 이동하여 가볍게 메달 게임 즐기고 호텔 1박 숙박권 보너스 확보</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">금요일 (현지식, KTV 초이스 & 펍)</div>
+                            <div class="timeline-desc">12:00 기상 후 <a href="https://www.google.com/maps/search/?api=1&query=Ssem+Moi+Garden+Danang" target="_blank" class="map-link-btn">🗺️ 씀모이가든</a>에서 베트남 가정식 점심 → 16:30 <a href="https://www.google.com/maps/search/?api=1&query=Benz+KTV+Danang" target="_blank" class="map-link-btn">🗺️ 벤츠 가라오케</a> 방문 (오픈런 초이스 완료) → 파트너와 함께 로컬 펍/바에서 술 한잔 후 <a href="https://www.google.com/maps/search/?api=1&query=My+Khe+Beach+Danang" target="_blank" class="map-link-btn">🗺️ 미케비치</a> 산책 → 호텔 투숙</div>
+                            <div class="timeline-cost">비용: KTV 주대 세트비 + 에코 롱타임 피</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">토요일 (마사지 & 홀덤 캐시게임)</div>
+                            <div class="timeline-desc">13:00 <a href="https://www.google.com/maps/search/?api=1&query=Lotte+Mart+Danang" target="_blank" class="map-link-btn">🗺️ 롯데마트</a> 환전 및 간식 쇼핑 → 15:00 <a href="https://www.google.com/maps/search/?api=1&query=Maxim+King+Massage+Danang" target="_blank" class="map-link-btn">🗺️ 맥심 킹 마사지</a> (누루 코스 또는 하드 연애) → 18:00 <a href="https://www.google.com/maps/search/?api=1&query=Some+Restaurant+Danang" target="_blank" class="map-link-btn">🗺️ 썸식당</a>에서 착석 에모이와 저녁 식사 → 야간에 <a href="https://www.google.com/maps/search/?api=1&query=Crown+Casino+Da+Nang" target="_blank" class="map-link-btn">🗺️ 크라운 카지노 홀덤클럽</a> 입장하여 블라인드 게임 플레이</div>
+                            <div class="timeline-cost">비용: 맥심킹 240만~400만동, 홀덤 시드머니</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">일요일 (세신 후 귀국 준비)</div>
+                            <div class="timeline-desc">12:00 체크아웃 후 짐 보관 → 13:00 바다 전망 카페에서 커피 한잔 → 15:00 <a href="https://www.google.com/maps/search/?api=1&query=Apple+Spa+Danang" target="_blank" class="map-link-btn">🗺️ 애플스파</a> 황제때밀이 예약 (깨끗하게 씻고 면도 및 두피 마사지 완료) → 19:00 시내 로컬 야시장 구경 및 저녁 식사 → 22:30 공항 샌딩 → 귀국</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-review" style="background: rgba(236, 72, 153, 0.1);">
+                    <strong>스케줄 요약 요령:</strong>
+                    <span>낮에는 하드코어 마사지와 뷰티 세신, 저녁에는 가성비 좋은 KTV 오픈런과 합법 홀덤/파칭코를 적절히 믹스하여 오로지 남성 위주의 밤문화와 게임을 밀도 높게 즐기는 전투형 동선입니다.</span>
+                </div>
+            </div>
+
+            <!-- 코스 C: 카지노 VIP & 힐링 관광 코스 -->
+            <div class="card">
+                <div>
+                    <div class="card-header">
+                        <span class="card-title">Course C: 카지노 VIP & 힐링 관광 코스</span>
+                        <span class="badge badge-emerald">Casino & Sightseeing</span>
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-time">목요일 야간 (입국 및 카지노)</div>
+                            <div class="timeline-desc">다낭 공항 입국 → 카지노 예약 픽업 차량 탑승 → <a href="https://www.google.com/maps/search/?api=1&query=Grand+Mercure+Danang" target="_blank" class="map-link-btn">🗺️ 그랜드 머큐어 호텔</a> (카지노 $500 이상 바이인 혜택으로 무료 2박 제공) 체크인 → <a href="https://www.google.com/maps/search/?api=1&query=Club+99+Danang" target="_blank" class="map-link-btn">🗺️ 클럽99 카지노</a> 프리쿠폰 플레이</div>
+                            <div class="timeline-cost">조건: 카지노 $500 바이인 진행 필수</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">금요일 (마블마운틴 관광 & KTV 동반 게임)</div>
+                            <div class="timeline-desc">13:00 <a href="https://www.google.com/maps/search/?api=1&query=Marble+Mountains+Danang" target="_blank" class="map-link-btn">🗺️ 오행산(마블마운틴)</a> 방문하여 절경 감상 및 관광 → 17:00 <a href="https://www.google.com/maps/search/?api=1&query=One+Opera+Danang+Casino" target="_blank" class="map-link-btn">🗺️ 원오페라 KTV</a> 방문해 24시간 에스코트(에코걸) 픽업 → 파트너와 함께 <a href="https://www.google.com/maps/search/?api=1&query=One+Opera+Danang+Casino" target="_blank" class="map-link-btn">🗺️ 원오페라 카지노</a> 내부 라운지 식사 및 밤 시간 동반 플레이</div>
+                            <div class="timeline-cost">비용: 에코걸 하루 페이 및 카지노 롤링 시드</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">토요일 (호이안 관광 & 하이엔드 스파)</div>
+                            <div class="timeline-desc">14:00 에코걸 파트너와 함께 <a href="https://www.google.com/maps/search/?api=1&query=Hoi+An+Old+Town" target="_blank" class="map-link-btn">🗺️ 호이안 올드타운</a>으로 이동하여 소원배 탑승 및 야경 관광, 식사 → 20:00 다낭 복귀 후 <a href="https://www.google.com/maps/search/?api=1&query=58+Huy+Du+Son+Tra+Danang" target="_blank" class="map-link-btn">🗺️ 더킹 스파</a> 방문 (팁 포함 70만동 1인샵 감성 마사지로 피로 완전 해소)</div>
+                            <div class="timeline-cost">비용: 더킹스파 70만동</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">일요일 (쇼핑, 파이널 게임 & 귀국)</div>
+                            <div class="timeline-desc">12:00 체크아웃 후 짐 보관 → 13:00 안트엉 거리 <a href="https://www.google.com/maps/search/?api=1&query=38+Tran+Bach+Dang+Danang" target="_blank" class="map-link-btn">🗺️ GROOVE 매장</a> 방문해 명품 이미테이션 및 골프웨어 쇼핑 → 오후 시간 <a href="https://www.google.com/maps/search/?api=1&query=Club+88+Danang" target="_blank" class="map-link-btn">🗺️ 클럽 88 카지노</a>에서 롤링 미션 완료 및 정산 → 저녁 식사 후 공항 샌딩 → 귀국</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-review" style="background: rgba(16, 185, 129, 0.1);">
+                    <strong>스케줄 요약 요령:</strong>
+                    <span>호이안과 오행산 등 다낭의 핵심 관광지를 섭렵하면서, 카지노 바이인 연계 무료 숙박 혜택을 알차게 활용하고 KTV 에코걸 동반 플레이를 섞어 관광과 VIP 겜블을 동시에 잡는 동선입니다.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function switchTab(tabId) {
+        // Hide all sections
+        const sections = document.querySelectorAll('.section');
+        sections.forEach(sec => sec.classList.remove('active'));
+
+        // Deactivate all buttons
+        const buttons = document.querySelectorAll('.nav-btn');
+        buttons.forEach(btn => btn.classList.remove('active'));
+
+        // Show selected section
+        document.getElementById(tabId).classList.add('active');
+
+        // Activate clicked button
+        event.currentTarget.classList.add('active');
+    }
+</script>
+</body>
+</html>

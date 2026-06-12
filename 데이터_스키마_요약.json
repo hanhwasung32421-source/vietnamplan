@@ -1,0 +1,379 @@
+{
+  "베트남소통방.json": {
+    "path": "c:\\trae\\베트남\\베트남소통방.json",
+    "encoding_guess": "utf-8",
+    "messages_len": 57138,
+    "scanned": 5000,
+    "message_item_types": {
+      "dict": 5000,
+      "str": 0,
+      "other": 0
+    },
+    "keys_seen": [
+      "action",
+      "actor",
+      "actor_id",
+      "boosts",
+      "date",
+      "date_unixtime",
+      "duration_seconds",
+      "edited",
+      "edited_unixtime",
+      "file",
+      "file_name",
+      "file_size",
+      "forwarded_from",
+      "forwarded_from_id",
+      "from",
+      "from_id",
+      "height",
+      "id",
+      "media_type",
+      "members",
+      "message_id",
+      "mime_type",
+      "new_icon_emoji_id",
+      "photo",
+      "photo_file_size",
+      "reactions",
+      "reply_to_message_id",
+      "sticker_emoji",
+      "text",
+      "text_entities",
+      "thumbnail",
+      "thumbnail_file_size",
+      "title",
+      "type",
+      "width"
+    ],
+    "key_presence_in_scan": {
+      "date": "5000/5000",
+      "date_unixtime": "5000/5000",
+      "id": "5000/5000",
+      "text": "5000/5000",
+      "text_entities": "5000/5000",
+      "type": "5000/5000",
+      "from": "4480/5000",
+      "from_id": "4480/5000",
+      "reply_to_message_id": "950/5000",
+      "action": "520/5000",
+      "actor": "520/5000",
+      "actor_id": "520/5000",
+      "members": "516/5000",
+      "height": "376/5000",
+      "width": "376/5000",
+      "file": "327/5000",
+      "file_size": "327/5000",
+      "media_type": "327/5000",
+      "mime_type": "327/5000",
+      "thumbnail": "327/5000",
+      "thumbnail_file_size": "327/5000",
+      "file_name": "325/5000",
+      "sticker_emoji": "318/5000",
+      "edited": "154/5000",
+      "edited_unixtime": "154/5000",
+      "reactions": "90/5000",
+      "photo": "49/5000",
+      "photo_file_size": "49/5000",
+      "duration_seconds": "18/5000",
+      "forwarded_from": "4/5000",
+      "forwarded_from_id": "4/5000",
+      "boosts": "1/5000",
+      "message_id": "1/5000",
+      "new_icon_emoji_id": "1/5000",
+      "title": "1/5000"
+    },
+    "value_type_distribution": {
+      "id": {
+        "int": 5000
+      },
+      "type": {
+        "str": 5000
+      },
+      "date": {
+        "str": 5000
+      },
+      "date_unixtime": {
+        "str": 5000
+      },
+      "actor": {
+        "str": 456,
+        "NoneType": 64
+      },
+      "actor_id": {
+        "str": 520
+      },
+      "action": {
+        "str": 520
+      },
+      "title": {
+        "str": 1
+      },
+      "text": {
+        "str": 4979,
+        "list": 21
+      },
+      "text_entities": {
+        "list": 5000
+      },
+      "members": {
+        "list": 516
+      },
+      "new_icon_emoji_id": {
+        "int": 1
+      },
+      "from": {
+        "str": 4345,
+        "NoneType": 135
+      },
+      "from_id": {
+        "str": 4480
+      },
+      "file": {
+        "str": 327
+      },
+      "file_name": {
+        "str": 325
+      },
+      "file_size": {
+        "int": 327
+      },
+      "thumbnail": {
+        "str": 327
+      },
+      "thumbnail_file_size": {
+        "int": 327
+      },
+      "media_type": {
+        "str": 327
+      },
+      "sticker_emoji": {
+        "str": 318
+      },
+      "mime_type": {
+        "str": 327
+      },
+      "width": {
+        "int": 376
+      },
+      "height": {
+        "int": 376
+      },
+      "reply_to_message_id": {
+        "int": 950
+      },
+      "edited": {
+        "str": 154
+      },
+      "edited_unixtime": {
+        "str": 154
+      },
+      "reactions": {
+        "list": 90
+      },
+      "photo": {
+        "str": 49
+      },
+      "photo_file_size": {
+        "int": 49
+      },
+      "forwarded_from": {
+        "str": 4
+      },
+      "forwarded_from_id": {
+        "str": 4
+      },
+      "duration_seconds": {
+        "int": 18
+      },
+      "message_id": {
+        "int": 1
+      },
+      "boosts": {
+        "int": 1
+      }
+    },
+    "date_min_scan": "2024-11-08 02:53:42",
+    "date_max_scan": "2025-01-22 00:40:44"
+  },
+  "베트남업소정보.json": {
+    "path": "c:\\trae\\베트남\\베트남업소정보.json",
+    "encoding_guess": "utf-8",
+    "messages_len": 1336,
+    "scanned": 1336,
+    "message_item_types": {
+      "dict": 1336,
+      "str": 0,
+      "other": 0
+    },
+    "keys_seen": [
+      "action",
+      "actor",
+      "actor_id",
+      "date",
+      "date_unixtime",
+      "duration_seconds",
+      "edited",
+      "edited_unixtime",
+      "file",
+      "file_name",
+      "file_size",
+      "forwarded_from",
+      "forwarded_from_id",
+      "from",
+      "from_id",
+      "height",
+      "id",
+      "media_type",
+      "message_id",
+      "mime_type",
+      "photo",
+      "photo_file_size",
+      "poll",
+      "reactions",
+      "sticker_emoji",
+      "text",
+      "text_entities",
+      "thumbnail",
+      "thumbnail_file_size",
+      "title",
+      "type",
+      "width"
+    ],
+    "key_presence_in_scan": {
+      "date": "1336/1336",
+      "date_unixtime": "1336/1336",
+      "id": "1336/1336",
+      "text": "1336/1336",
+      "text_entities": "1336/1336",
+      "type": "1336/1336",
+      "from": "1325/1336",
+      "from_id": "1325/1336",
+      "height": "1214/1336",
+      "width": "1214/1336",
+      "photo": "1114/1336",
+      "photo_file_size": "1114/1336",
+      "edited": "636/1336",
+      "edited_unixtime": "636/1336",
+      "reactions": "319/1336",
+      "forwarded_from": "132/1336",
+      "forwarded_from_id": "131/1336",
+      "file": "100/1336",
+      "file_size": "100/1336",
+      "media_type": "100/1336",
+      "mime_type": "100/1336",
+      "thumbnail": "100/1336",
+      "thumbnail_file_size": "100/1336",
+      "file_name": "98/1336",
+      "duration_seconds": "96/1336",
+      "action": "11/1336",
+      "actor": "11/1336",
+      "actor_id": "11/1336",
+      "title": "6/1336",
+      "sticker_emoji": "3/1336",
+      "message_id": "2/1336",
+      "poll": "1/1336"
+    },
+    "value_type_distribution": {
+      "id": {
+        "int": 1336
+      },
+      "type": {
+        "str": 1336
+      },
+      "date": {
+        "str": 1336
+      },
+      "date_unixtime": {
+        "str": 1336
+      },
+      "actor": {
+        "str": 11
+      },
+      "actor_id": {
+        "str": 11
+      },
+      "action": {
+        "str": 11
+      },
+      "title": {
+        "str": 6
+      },
+      "text": {
+        "str": 665,
+        "list": 671
+      },
+      "text_entities": {
+        "list": 1336
+      },
+      "from": {
+        "str": 1325
+      },
+      "from_id": {
+        "str": 1325
+      },
+      "photo": {
+        "str": 1114
+      },
+      "photo_file_size": {
+        "int": 1114
+      },
+      "width": {
+        "int": 1214
+      },
+      "height": {
+        "int": 1214
+      },
+      "edited": {
+        "str": 636
+      },
+      "edited_unixtime": {
+        "str": 636
+      },
+      "reactions": {
+        "list": 319
+      },
+      "message_id": {
+        "int": 2
+      },
+      "forwarded_from": {
+        "str": 132
+      },
+      "forwarded_from_id": {
+        "str": 131
+      },
+      "file": {
+        "str": 100
+      },
+      "file_name": {
+        "str": 98
+      },
+      "file_size": {
+        "int": 100
+      },
+      "thumbnail": {
+        "str": 100
+      },
+      "thumbnail_file_size": {
+        "int": 100
+      },
+      "media_type": {
+        "str": 100
+      },
+      "sticker_emoji": {
+        "str": 3
+      },
+      "mime_type": {
+        "str": 100
+      },
+      "poll": {
+        "dict": 1
+      },
+      "duration_seconds": {
+        "int": 96
+      }
+    },
+    "date_min_scan": "2019-08-12 16:51:38",
+    "date_max_scan": "2026-06-03 15:21:12"
+  }
+}
